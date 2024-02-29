@@ -1,0 +1,72 @@
+create Database BMS;
+use BMS;
+
+
+--Customer_Personal_Info
+Create Table Customer_Personal_Info
+(
+Customer_id int,
+Customer_name varchar(30),
+Date_of_Birth Date,
+Guardian_Name varchar(30),
+Address varchar(50),
+Contact_no BIGINT,
+Maid_id varchar(30),
+Gender char(1),
+Marital_Status varchar(10),
+Identification_Doc_Type varchar(20),
+Id_Doc_No int,
+Citizenship varchar(10),
+Constraint Cust_Pers_Info_Pk Primary Key(Customer_id)
+);
+ 
+ --Customer_Reference_Info
+ Create Table Customer_Reference_Info
+ (
+ Customer_id int,
+ Reference_Account_Name varchar(20),
+ Reference_Account_No BIGINT,
+ Reference_Account_Address varchar(50),
+ Relation varchar(25),
+ Constraint Cust_Ref_Info_Pk Primary Key(Customer_id),
+ Constraint Cust_Ref_Info_Fk Foreign Key(Customer_id)References Customer_Reference_Info(Customer_id)
+ );
+
+ --Bank Info
+ Create Table Bank_Info
+ (
+ IFSC_Code varchar(15),
+ Bank_Name varchar(25),
+ Branch_Name varchar(25),
+ Constraint Bank_Info_Pk Primary Key(IFSC_Code)
+ );
+
+ --Account Info
+ create Table Account_Info
+ (
+ account_no BIGINT,
+ Customer_Id int,
+ Account_Type varchar(10),
+ Registration_Date Date,
+ Activation_Date Date,
+ IFSC_Code varchar(15),
+ Interest Decimal(10, 2),
+ Initial_Deposit BIGINT,
+ Constraint Acc_Info_Pk Primary Key(Account_No),
+ Constraint Acc_Info_Perks_Fk Foreign Key(Customer_id)References Customer_Reference_Info(Customer_id),
+ Constraint Acc_Info_Bank_Fk Foreign Key(IFSC_Code)References Bank_Info(IFSC_Code)
+ );
+
+ --Bank Info
+ Insert Into Bank_Info(IFSC_Code,Bank_Name,Branch_Name)Values('BARBOTHN','BOB','Thane');
+ Insert Into Bank_Info(IFSC_Code,Bank_Name,Branch_Name)Values('BARBOMUM','BOB','Mumbai');
+ Insert Into Bank_Info(IFSC_Code,Bank_Name,Branch_Name)Values('BARBOPNV','BOB','Panvel');
+ Insert Into Bank_Info(IFSC_Code,Bank_Name,Branch_Name)Values('BARBONRL','BOB','Nerul');
+
+ select * from Bank_Info;
+
+ --Customer_Personal_Info
+ Insert Into Customer_Personal_Info(Customer_id,Customer_name,Date_of_Birth)Values('1111','Shekhar','1997-05-12');
+ Insert Into Customer_Personal_Info(Customer_id,Customer_name,Date_of_Birth)Values('1112','Vishal','1995-10-14');
+ Insert Into Customer_Personal_Info(Customer_id,Customer_name,Date_of_Birth)Values('1113','Rohit','1993-05-16');
+ Insert Into Customer_Personal_Info(Customer_id,Customer_name,Date_of_Birth)Values('1114','Rahul','1998-06-25');
